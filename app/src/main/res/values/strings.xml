@@ -1,0 +1,4 @@
+<resources>
+  <string name="app_name">"Food Magnet "</string>
+  <string name="title_activity_nearby">Map</string>
+</resources>
