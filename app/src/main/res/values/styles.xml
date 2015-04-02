@@ -5,12 +5,21 @@
 
   <!-- the theme applied to the application or activity -->
   <style name="AppTheme.Base"
-      parent="Theme.AppCompat.Light">
+      parent="Theme.AppCompat.Light.NoActionBar">
     <item name="colorPrimary">@color/primary</item>
     <item name="colorPrimaryDark">@color/primary_dark</item>
     <item name="colorAccent">@color/primary_light</item>
     <item name="android:windowNoTitle">true</item>
     <item name="windowActionBar">false</item>
+  </style>
+
+  <style name="myToolBarTitle"
+      parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
+    <item name="android:textSize">@dimen/text_size_small</item>
+    <item name="android:textColor">@color/white</item>
+    <item name="android:gravity">center_vertical</item>
+    <item name="android:layout_gravity">center_vertical</item>
+    <item name="android:paddingTop">@dimen/spacing_micro</item>
   </style>
 
 </resources>

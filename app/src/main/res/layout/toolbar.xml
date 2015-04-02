@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="?android:actionBarSize"
+    android:background="@color/primary"
+    android:windowActionBarOverlay="true"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+    tools:ignore="UnusedAttribute"
+    android:gravity="center_vertical"
+    >
+
+  <TextView
+      android:id="@+id/title"
+      style="@style/myToolBarTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      tools:text="Nearby Shops"
+      />
+
+</android.support.v7.widget.Toolbar>
