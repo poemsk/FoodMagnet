@@ -2,6 +2,8 @@ package com.poepoemyintswe.foodmagnet.ui;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -23,6 +25,7 @@ import timber.log.Timber;
 public class NearbyActivity extends FragmentActivity {
 
   @InjectView(R.id.title) TextView title;
+  @InjectView(R.id.list) RecyclerView mRecyclerView;
   private GoogleMap mMap;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,7 @@ public class NearbyActivity extends FragmentActivity {
     setContentView(R.layout.activity_nearby);
     ButterKnife.inject(this);
     title.setText(getString(R.string.app_name));
+    recyclerViewInit();
     Timber.tag("NearbyActivity");
     setUpMapIfNeeded();
     getNearbyShops();
@@ -83,5 +87,13 @@ public class NearbyActivity extends FragmentActivity {
    */
   private void setUpMap() {
     mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+  }
+
+  public void recyclerViewInit() {
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+    layoutManager.scrollToPosition(0);
+    layoutManager.setSmoothScrollbarEnabled(true);
+    mRecyclerView.setLayoutManager(layoutManager);
   }
 }
