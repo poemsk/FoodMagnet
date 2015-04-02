@@ -1,12 +1,13 @@
 package com.poepoemyintswe.foodmagnet.ui;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -22,28 +23,40 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class NearbyActivity extends FragmentActivity {
+public class NearbyActivity extends ActionBarActivity {
 
-  @InjectView(R.id.title) TextView title;
+  @InjectView(R.id.toolbar) Toolbar mToolbar;
   @InjectView(R.id.list) RecyclerView mRecyclerView;
   private GoogleMap mMap;
+
+  private double mLatitude, mLongitude;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_nearby);
     ButterKnife.inject(this);
-    title.setText(getString(R.string.app_name));
+
+    //toolbar
+    setSupportActionBar(mToolbar);
+
+    //initialize RecyclerView
     initRecyclerView();
+
+    //logging
     Timber.tag("NearbyActivity");
-    setUpMapIfNeeded();
+
+    //fetch data
     getNearbyShops();
+
+    //initialize map
+    setUpMapIfNeeded();
   }
 
   private void getNearbyShops() {
     if (GPSTracker.getInstance(this).canGetLocation()) {
-      String location =
-          GPSTracker.getInstance(this).getLatitude() + "," + GPSTracker.getInstance(this)
-              .getLongitude();
+      mLatitude = GPSTracker.getInstance(this).getLatitude();
+      mLongitude = GPSTracker.getInstance(this).getLongitude();
+      String location = mLatitude + "," + mLongitude;
       Timber.d(location);
       if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
         MapService mapService =
@@ -68,6 +81,7 @@ public class NearbyActivity extends FragmentActivity {
   }
 
   private void setUpMapIfNeeded() {
+
     // Do a null check to confirm that we have not already instantiated the map.
     if (mMap == null) {
       // Try to obtain the map from the SupportMapFragment.
@@ -79,14 +93,9 @@ public class NearbyActivity extends FragmentActivity {
     }
   }
 
-  /**
-   * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-   * just add a marker near Africa.
-   * <p>
-   * This should only be called once and when we are sure that {@link #mMap} is not null.
-   */
   private void setUpMap() {
-    mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("Marker"));
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 12.0f));
   }
 
   public void initRecyclerView() {
