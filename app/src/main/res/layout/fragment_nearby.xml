@@ -18,11 +18,9 @@
       android:textSize="16sp"
       />
 
-  <TextView
+  <android.support.v7.widget.RecyclerView
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:gravity="center|top"
-      android:text="The Awesome Sliding Up Panel"
-      android:textSize="16sp"
       />
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
