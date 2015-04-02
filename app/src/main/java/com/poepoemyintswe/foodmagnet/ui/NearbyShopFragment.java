@@ -50,7 +50,7 @@ public class NearbyShopFragment extends Fragment {
       if (NetworkConnectivityCheck.getInstance(mActivity).isConnected()) {
         MapService mapService =
             CustomRestAdapter.getInstance(mActivity).normalRestAdapter().create(MapService.class);
-        mapService.getNearbyShops(location, 5000, "bakery|bar|cafe|food|restaurant",
+        mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
             getString(R.string.google_maps_key), new Callback<Data>() {
               @Override public void success(Data data, Response response) {
                 Timber.d("Response status :" + response.getStatus());
