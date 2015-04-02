@@ -7,7 +7,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.poepoemyintswe.foodmagnet.R;
 
-public class Nearby extends FragmentActivity {
+public class NearbyActivity extends FragmentActivity {
 
   @InjectView(R.id.title) TextView title;
 

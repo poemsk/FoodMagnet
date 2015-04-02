@@ -28,25 +28,6 @@ public class CustomRestAdapter {
     return customRestAdapter;
   }
 
-  public RestAdapter GsonRestAdapter() {
-
-    RestAdapter restAdapter;
-    if (BuildConfig.DEBUG) {
-      restAdapter = new RestAdapter.Builder().setEndpoint(Config.BASE_URL)
-          .setLogLevel(RestAdapter.LogLevel.BASIC)
-          .setClient(new OkClient(okHttpClient))
-          .setErrorHandler(new RetrofitErrorHandler((Activity) mContext))
-          .build();
-    } else {
-      restAdapter = new RestAdapter.Builder().setEndpoint(Config.BASE_URL)
-          .setClient(new OkClient(okHttpClient))
-          .setErrorHandler(new RetrofitErrorHandler((Activity) mContext))
-          .build();
-    }
-
-    return restAdapter;
-  }
-
   public RestAdapter normalRestAdapter() {
 
     RestAdapter restAdapter;
