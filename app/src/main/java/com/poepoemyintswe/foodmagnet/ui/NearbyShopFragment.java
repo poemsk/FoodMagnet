@@ -1,15 +1,21 @@
 package com.poepoemyintswe.foodmagnet.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.poepoemyintswe.foodmagnet.R;
 
@@ -18,16 +24,15 @@ import com.poepoemyintswe.foodmagnet.R;
  */
 public class NearbyShopFragment extends Fragment {
   private static final int REQUEST_PLACE_PICKER = 1;
+  @InjectView(R.id.place_name) TextView mName;
+  @InjectView(R.id.place_address) TextView mAddress;
+  @InjectView(R.id.place_attribute) TextView mAttributions;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-  }
-
-  @Override public void onStart() {
-    super.onStart();
     initPlacePicker();
   }
-
+  
   private void initPlacePicker() {
     try {
       PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
@@ -44,6 +49,29 @@ public class NearbyShopFragment extends Fragment {
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View rootView = inflater.inflate(R.layout.fragment_nearby, container, false);
+    ButterKnife.inject(this, rootView);
     return rootView;
+  }
+
+  @Override public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    if (requestCode == REQUEST_PLACE_PICKER && resultCode == Activity.RESULT_OK) {
+
+      // The user has selected a place. Extract the name and address.
+      final Place place = PlacePicker.getPlace(data, getActivity());
+
+      final CharSequence name = place.getName();
+      final CharSequence address = place.getAddress();
+      String attributions = PlacePicker.getAttributions(data);
+      if (attributions == null) {
+        attributions = "";
+      }
+
+      mName.setText(name);
+      mAddress.setText(address);
+      mAttributions.setText(Html.fromHtml(attributions));
+    } else {
+      super.onActivityResult(requestCode, resultCode, data);
+    }
   }
 }
