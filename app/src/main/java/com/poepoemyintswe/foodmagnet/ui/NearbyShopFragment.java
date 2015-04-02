@@ -9,12 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
-import com.google.android.gms.common.GooglePlayServicesRepairableException;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.poepoemyintswe.foodmagnet.R;
@@ -30,21 +26,20 @@ public class NearbyShopFragment extends Fragment {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    initPlacePicker();
   }
-  
-  private void initPlacePicker() {
-    try {
-      PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
-      Intent intent = intentBuilder.build(getActivity());
-      startActivityForResult(intent, REQUEST_PLACE_PICKER);
-    } catch (GooglePlayServicesRepairableException e) {
-      GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), getActivity(), 0);
-    } catch (GooglePlayServicesNotAvailableException e) {
-      Toast.makeText(getActivity(), "Google Play Services is not available.", Toast.LENGTH_LONG)
-          .show();
-    }
-  }
+
+  //private void initPlacePicker() {
+  //  try {
+  //    PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+  //    Intent intent = intentBuilder.build(getActivity());
+  //    startActivityForResult(intent, REQUEST_PLACE_PICKER);
+  //  } catch (GooglePlayServicesRepairableException e) {
+  //    GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), getActivity(), 0);
+  //  } catch (GooglePlayServicesNotAvailableException e) {
+  //    Toast.makeText(getActivity(), "Google Play Services is not available.", Toast.LENGTH_LONG)
+  //        .show();
+  //  }
+  //}
 
   @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
