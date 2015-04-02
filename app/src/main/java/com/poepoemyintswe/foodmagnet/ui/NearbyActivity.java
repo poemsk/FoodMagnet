@@ -33,7 +33,7 @@ public class NearbyActivity extends FragmentActivity {
     setContentView(R.layout.activity_nearby);
     ButterKnife.inject(this);
     title.setText(getString(R.string.app_name));
-    recyclerViewInit();
+    initRecyclerView();
     Timber.tag("NearbyActivity");
     setUpMapIfNeeded();
     getNearbyShops();
@@ -89,7 +89,7 @@ public class NearbyActivity extends FragmentActivity {
     mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
   }
 
-  public void recyclerViewInit() {
+  public void initRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     layoutManager.scrollToPosition(0);
