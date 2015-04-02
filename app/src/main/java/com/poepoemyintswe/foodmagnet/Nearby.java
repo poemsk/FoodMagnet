@@ -1,8 +1,10 @@
 package com.poepoemyintswe.foodmagnet;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-
+import android.support.v4.app.FragmentActivity;
+import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -10,11 +12,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class Nearby extends FragmentActivity {
 
+  @InjectView(R.id.title) TextView title;
   private GoogleMap mMap; // Might be null if Google Play services APK is not available.
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_nearby);
+    ButterKnife.inject(this);
+    title.setText(getString(R.string.app_name));
     setUpMapIfNeeded();
   }
 
