@@ -22,6 +22,7 @@ import com.poepoemyintswe.foodmagnet.api.MapService;
 import com.poepoemyintswe.foodmagnet.model.Data;
 import com.poepoemyintswe.foodmagnet.model.Geometry;
 import com.poepoemyintswe.foodmagnet.model.Result;
+import com.poepoemyintswe.foodmagnet.ui.widget.DividerItemDecoration;
 import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
 import com.poepoemyintswe.foodmagnet.utils.GPSTracker;
 import com.poepoemyintswe.foodmagnet.utils.NetworkConnectivityCheck;
@@ -56,6 +57,7 @@ public class NearbyActivity extends ActionBarActivity
     initRecyclerView();
     List<Result> results = new ArrayList<>();
     adapter = new LocationAdapter(results);
+    mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
     mRecyclerView.setAdapter(adapter);
 
     //logging
@@ -145,17 +147,18 @@ public class NearbyActivity extends ActionBarActivity
 
   private void drawMarkerWithCircle(LatLng position) {
     double radiusInMeters = 100.0;
-    int strokeColor = 0xffff0000; //red outline
-    int shadeColor = 0x44ff0000; //opaque red fill
+    int strokeColor = getResources().getColor(R.color.primary); //red outline
+    int shadeColor = getResources().getColor(R.color.light_blue); //opaque red fill
 
     CircleOptions circleOptions = new CircleOptions().center(position)
         .radius(radiusInMeters)
         .fillColor(shadeColor)
         .strokeColor(strokeColor)
-        .strokeWidth(4);
+        .strokeWidth(2);
     mCircle = mMap.addCircle(circleOptions);
 
-    MarkerOptions markerOptions = new MarkerOptions().position(position).title("Current Location");
+    MarkerOptions markerOptions =
+        new MarkerOptions().position(position).draggable(true).title("Current Location");
     mMarker = mMap.addMarker(markerOptions);
     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
   }
