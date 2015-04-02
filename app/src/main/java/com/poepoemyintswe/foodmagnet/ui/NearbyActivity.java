@@ -118,7 +118,7 @@ public class NearbyActivity extends ActionBarActivity
       }
     }
   }
-  
+
   public void initRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
