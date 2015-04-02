@@ -27,7 +27,7 @@ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
         />
     <meta-data
         android:name="com.google.android.maps.v2.API_KEY"
-        android:value="@string/google_maps_key"
+        android:value="@string/google_maps_android_key"
         />
 
     <activity

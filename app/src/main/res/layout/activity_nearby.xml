@@ -1,5 +1,4 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,11 +7,5 @@
       android:id="@+id/toolbar"
       layout="@layout/toolbar"
       />
-  <fragment
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:id="@+id/map"
-      tools:context=".Nearby"
-      android:name="com.poepoemyintswe.foodmagnet.ui.NearbyShopFragment"
-      />
+  <include layout="@layout/fragment_nearby"/>
 </LinearLayout>
