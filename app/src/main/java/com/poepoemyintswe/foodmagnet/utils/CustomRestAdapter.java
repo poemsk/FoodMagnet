@@ -33,7 +33,7 @@ public class CustomRestAdapter {
     RestAdapter restAdapter;
     if (BuildConfig.DEBUG) {
       restAdapter = new RestAdapter.Builder().setEndpoint(Config.BASE_URL)
-          .setLogLevel(RestAdapter.LogLevel.BASIC)
+          .setLogLevel(RestAdapter.LogLevel.FULL)
           .setClient(new OkClient(okHttpClient))
           .setErrorHandler(new RetrofitErrorHandler((Activity) mContext))
           .build();
