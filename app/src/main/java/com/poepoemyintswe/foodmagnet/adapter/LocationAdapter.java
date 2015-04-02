@@ -11,6 +11,7 @@ import butterknife.InjectView;
 import com.bumptech.glide.Glide;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.model.Result;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,10 +23,12 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
   public LocationAdapter() {
     setHasStableIds(true);
+    results = new ArrayList<>();
   }
 
   public void setData(List<Result> results) {
     this.results = results;
+    notifyDataSetChanged();
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

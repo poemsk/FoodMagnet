@@ -1,5 +1,6 @@
 package com.poepoemyintswe.foodmagnet.ui;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.poepoemyintswe.foodmagnet.R;
+import com.poepoemyintswe.foodmagnet.adapter.LocationAdapter;
 import com.poepoemyintswe.foodmagnet.api.MapService;
 import com.poepoemyintswe.foodmagnet.model.Data;
 import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
@@ -23,11 +25,13 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
 
-public class NearbyActivity extends ActionBarActivity {
+public class NearbyActivity extends ActionBarActivity
+    implements GoogleMap.OnMyLocationChangeListener {
 
   @InjectView(R.id.toolbar) Toolbar mToolbar;
   @InjectView(R.id.list) RecyclerView mRecyclerView;
   private GoogleMap mMap;
+  private LocationAdapter adapter;
 
   private double mLatitude, mLongitude;
 
@@ -41,6 +45,8 @@ public class NearbyActivity extends ActionBarActivity {
 
     //initialize RecyclerView
     initRecyclerView();
+    adapter = new LocationAdapter();
+    mRecyclerView.setAdapter(adapter);
 
     //logging
     Timber.tag("NearbyActivity");
@@ -64,6 +70,7 @@ public class NearbyActivity extends ActionBarActivity {
         mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
             getString(R.string.google_maps_key), new Callback<Data>() {
               @Override public void success(Data data, Response response) {
+                adapter.setData(data.results);
                 Timber.d("Response status :" + response.getStatus());
               }
 
@@ -86,6 +93,7 @@ public class NearbyActivity extends ActionBarActivity {
     if (mMap == null) {
       // Try to obtain the map from the SupportMapFragment.
       mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
+      mMap.setOnMyLocationChangeListener(this);
       // Check if we were successful in obtaining the map.
       if (mMap != null) {
         setUpMap();
@@ -104,5 +112,9 @@ public class NearbyActivity extends ActionBarActivity {
     layoutManager.scrollToPosition(0);
     layoutManager.setSmoothScrollbarEnabled(true);
     mRecyclerView.setLayoutManager(layoutManager);
+  }
+
+  @Override public void onMyLocationChange(Location location) {
+
   }
 }
