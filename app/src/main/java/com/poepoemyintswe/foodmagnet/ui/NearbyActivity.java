@@ -20,6 +20,7 @@ import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.adapter.LocationAdapter;
 import com.poepoemyintswe.foodmagnet.api.MapService;
 import com.poepoemyintswe.foodmagnet.model.Data;
+import com.poepoemyintswe.foodmagnet.model.Geometry;
 import com.poepoemyintswe.foodmagnet.model.Result;
 import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
 import com.poepoemyintswe.foodmagnet.utils.GPSTracker;
@@ -80,6 +81,12 @@ public class NearbyActivity extends ActionBarActivity
             getString(R.string.google_maps_key), new Callback<Data>() {
               @Override public void success(Data data, Response response) {
                 adapter.addAll(data.results);
+                for (int i = 0; i < data.results.size(); i++) {
+                  Result result = data.results.get(i);
+                  Geometry geometry = data.results.get(i).geometry;
+                  mMap.addMarker(new MarkerOptions().position(
+                      new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
+                }
 
                 Timber.d("Response status :" + response.getStatus());
               }
@@ -111,12 +118,7 @@ public class NearbyActivity extends ActionBarActivity
       }
     }
   }
-
-  private void setUpMap() {
-    mMap.addMarker(new MarkerOptions().position(new LatLng(mLatitude, mLongitude)).title("Marker"));
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 12.0f));
-  }
-
+  
   public void initRecyclerView() {
     LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -137,7 +139,7 @@ public class NearbyActivity extends ActionBarActivity
   private void updateMarkerWithCircle(LatLng position) {
     mCircle.setCenter(position);
     mMarker.setPosition(position);
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.0f));
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
   }
 
   private void drawMarkerWithCircle(LatLng position) {
@@ -152,8 +154,8 @@ public class NearbyActivity extends ActionBarActivity
         .strokeWidth(4);
     mCircle = mMap.addCircle(circleOptions);
 
-    MarkerOptions markerOptions = new MarkerOptions().position(position);
+    MarkerOptions markerOptions = new MarkerOptions().position(position).title("Current Location");
     mMarker = mMap.addMarker(markerOptions);
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.0f));
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
   }
 }
