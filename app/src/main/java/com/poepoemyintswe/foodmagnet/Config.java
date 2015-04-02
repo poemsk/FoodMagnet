@@ -6,6 +6,7 @@ package com.poepoemyintswe.foodmagnet;
 public class Config {
   public static final String BASE_URL = "https://maps.googleapis.com/maps/api/place/search";
   public static final String END_POINT = "/json";
+  public static final String PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo?";
 
   public static final String LOCATION = "location";
   public static final String RADIUS = "radius";

@@ -128,6 +128,7 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   @Override public void onMyLocationChange(Location location) {
+    Timber.d("Location Change Listener");
     LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
     if (mCircle == null || mMarker == null) {
       drawMarkerWithCircle(latLng);
