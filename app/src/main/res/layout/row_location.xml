@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
+  <ImageView
+      android:id="@+id/icon"
+      tools:src="@mipmap/ic_launcher"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="@dimen/spacing_minor"
+      android:contentDescription="@string/app_name"
+      />
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="KFC"
+        style="@style/nameTextStyle"
+        android:fontFamily="sans-serif-medium"
+        />
+    <TextView
+        android:id="@+id/vicinity"
+        tools:text="KFC, Bukit Batok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/addressTextStyle"
+        android:fontFamily="sans-serif"
+        />
+  </LinearLayout>
+
 
 </LinearLayout>
