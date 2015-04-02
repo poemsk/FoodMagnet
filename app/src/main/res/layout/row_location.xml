@@ -8,9 +8,10 @@
   <ImageView
       android:id="@+id/icon"
       tools:src="@mipmap/ic_launcher"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:padding="@dimen/spacing_minor"
+      android:layout_width="32dp"
+      android:layout_height="32dp"
+      android:layout_marginTop="@dimen/spacing_not_so_major"
+      android:layout_marginLeft="@dimen/spacing_minor"
       android:contentDescription="@string/app_name"
       />
   <LinearLayout
