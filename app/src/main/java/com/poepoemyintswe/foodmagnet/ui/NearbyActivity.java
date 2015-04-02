@@ -17,9 +17,12 @@ import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.adapter.LocationAdapter;
 import com.poepoemyintswe.foodmagnet.api.MapService;
 import com.poepoemyintswe.foodmagnet.model.Data;
+import com.poepoemyintswe.foodmagnet.model.Result;
 import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
 import com.poepoemyintswe.foodmagnet.utils.GPSTracker;
 import com.poepoemyintswe.foodmagnet.utils.NetworkConnectivityCheck;
+import java.util.ArrayList;
+import java.util.List;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -45,7 +48,8 @@ public class NearbyActivity extends ActionBarActivity
 
     //initialize RecyclerView
     initRecyclerView();
-    adapter = new LocationAdapter();
+    List<Result> results = new ArrayList<>();
+    adapter = new LocationAdapter(results);
     mRecyclerView.setAdapter(adapter);
 
     //logging
@@ -70,7 +74,7 @@ public class NearbyActivity extends ActionBarActivity
         mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
             getString(R.string.google_maps_key), new Callback<Data>() {
               @Override public void success(Data data, Response response) {
-                adapter.setData(data.results);
+                adapter.addAll(data.results);
 
                 Timber.d("Response status :" + response.getStatus());
               }

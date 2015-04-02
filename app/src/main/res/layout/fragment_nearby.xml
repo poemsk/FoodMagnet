@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="bottom"
-    sothree:umanoPanelHeight="68dp"
-    sothree:umanoShadowHeight="4dp"
+    sothree:umanoPanelHeight="@dimen/panel_height"
+    sothree:umanoShadowHeight="@dimen/spacing_micro"
     >
 
   <fragment xmlns:android="http://schemas.android.com/apk/res/android"

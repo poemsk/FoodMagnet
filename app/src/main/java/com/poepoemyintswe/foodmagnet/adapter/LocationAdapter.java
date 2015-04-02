@@ -11,7 +11,6 @@ import butterknife.InjectView;
 import com.bumptech.glide.Glide;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.model.Result;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,14 +20,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
   private List<Result> results;
 
-  public LocationAdapter() {
+  public LocationAdapter(List<Result> results) {
     setHasStableIds(true);
-    results = new ArrayList<>();
-  }
-
-  public void setData(List<Result> results) {
     this.results = results;
-    notifyDataSetChanged();
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -37,9 +31,22 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     return new ViewHolder(view);
   }
 
-  @Override public void onBindViewHolder(ViewHolder holder, int position) {
-    final Result result = results.get(position);
-    holder.bindResult(result);
+  @Override public void onBindViewHolder(final ViewHolder holder, final int position) {
+    Result result = results.get(position);
+    holder.name.setText(result.name);
+    holder.vicinity.setText(result.vicinity);
+    Glide.with(holder.itemView.getContext()).load(result.icon).into(holder.icon);
+  }
+
+  public void addAll(List<Result> data) {
+    int startIndex = results.size();
+    results.addAll(startIndex, data);
+    notifyItemRangeInserted(startIndex, data.size());
+    notifyDataSetChanged();
+  }
+
+  @Override public long getItemId(int position) {
+    return position;
   }
 
   @Override public int getItemCount() {
@@ -54,12 +61,6 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public ViewHolder(View view) {
       super(view);
       ButterKnife.inject(this, view);
-    }
-
-    public void bindResult(Result result) {
-      name.setText(result.name);
-      vicinity.setText(result.vicinity);
-      Glide.with(itemView.getContext()).load(result.icon).into(icon);
     }
   }
 }

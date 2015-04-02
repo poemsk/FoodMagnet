@@ -10,6 +10,7 @@
   <dimen name="spacing_not_so_massive">18dp</dimen>
   <dimen name="spacing_massive">24dp</dimen>
   <dimen name="standard_touch_target_size">48dp</dimen>
+  <dimen name="panel_height">160dp</dimen>
 
   <dimen name="text_size_nano">11sp</dimen>
   <dimen name="text_size_micro">12sp</dimen>
