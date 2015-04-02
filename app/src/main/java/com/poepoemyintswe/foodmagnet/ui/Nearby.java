@@ -19,8 +19,4 @@ public class Nearby extends FragmentActivity {
     title.setText(getString(R.string.app_name));
     Timber.tag("Nearby");
   }
-
-  @Override protected void onResume() {
-    super.onResume();
-  }
 }
