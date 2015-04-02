@@ -44,6 +44,7 @@ public class NearbyActivity extends ActionBarActivity
   private LocationAdapter adapter;
   private Circle mCircle;
   private Marker mMarker;
+  private String location;
 
   private double mLatitude, mLongitude;
 
@@ -62,6 +63,14 @@ public class NearbyActivity extends ActionBarActivity
     mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
     mRecyclerView.setAdapter(adapter);
 
+    if (GPSTracker.getInstance(this).canGetLocation()) {
+      mLatitude = GPSTracker.getInstance(this).getLatitude();
+      mLongitude = GPSTracker.getInstance(this).getLongitude();
+      location = mLatitude + "," + mLongitude;
+      mLatLongTextView.setText("(" + location + ")");
+      Timber.d(location);
+    }
+
     //logging
     Timber.tag("NearbyActivity");
 
@@ -73,34 +82,27 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   private void getNearbyShops() {
-    if (GPSTracker.getInstance(this).canGetLocation()) {
-      mLatitude = GPSTracker.getInstance(this).getLatitude();
-      mLongitude = GPSTracker.getInstance(this).getLongitude();
-      String location = mLatitude + "," + mLongitude;
-      mLatLongTextView.setText("(" + location + ")");
-      Timber.d(location);
-      if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
-        MapService mapService =
-            CustomRestAdapter.getInstance(this).normalRestAdapter().create(MapService.class);
-        mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
-            getString(R.string.google_maps_key), new Callback<Data>() {
-              @Override public void success(Data data, Response response) {
-                adapter.addAll(data.results);
-                for (int i = 0; i < data.results.size(); i++) {
-                  Result result = data.results.get(i);
-                  Geometry geometry = data.results.get(i).geometry;
-                  mMap.addMarker(new MarkerOptions().position(
-                      new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
-                }
-
-                Timber.d("Response status :" + response.getStatus());
+    if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
+      MapService mapService =
+          CustomRestAdapter.getInstance(this).normalRestAdapter().create(MapService.class);
+      mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
+          getString(R.string.google_maps_key), new Callback<Data>() {
+            @Override public void success(Data data, Response response) {
+              adapter.addAll(data.results);
+              for (int i = 0; i < data.results.size(); i++) {
+                Result result = data.results.get(i);
+                Geometry geometry = data.results.get(i).geometry;
+                mMap.addMarker(new MarkerOptions().position(
+                    new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
               }
 
-              @Override public void failure(RetrofitError error) {
+              Timber.d("Response status :" + response.getStatus());
+            }
 
-              }
-            });
-      }
+            @Override public void failure(RetrofitError error) {
+
+            }
+          });
     }
   }
 
@@ -115,9 +117,8 @@ public class NearbyActivity extends ActionBarActivity
     if (mMap == null) {
       // Try to obtain the map from the SupportMapFragment.
       mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-      mMap.setOnMyLocationChangeListener(this);
-      // Check if we were successful in obtaining the map.
       if (mMap != null) {
+        mMap.setOnMyLocationChangeListener(this);
         //setUpMap();
         drawMarkerWithCircle(new LatLng(mLatitude, mLongitude));
       }
