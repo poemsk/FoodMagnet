@@ -54,4 +54,5 @@ dependencies {
   compile 'com.jakewharton:butterknife:6.0.0'
   compile 'com.android.support:support-v4:22.0.0'
   compile 'com.github.xiprox.errorview:library:1.0.0'
+  compile 'com.jakewharton.timber:timber:2.7.1'
 }
