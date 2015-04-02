@@ -55,4 +55,7 @@ dependencies {
   compile 'com.android.support:support-v4:22.0.0'
   compile 'com.github.xiprox.errorview:library:1.0.0'
   compile 'com.jakewharton.timber:timber:2.7.1'
+  compile 'com.sothree.slidinguppanel:library:3.0.0'
+  compile 'com.squareup.retrofit:retrofit:1.7.0'
+  compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0'
 }

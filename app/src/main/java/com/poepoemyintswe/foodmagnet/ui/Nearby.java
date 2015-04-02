@@ -6,7 +6,6 @@ import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.poepoemyintswe.foodmagnet.R;
-import timber.log.Timber;
 
 public class Nearby extends FragmentActivity {
 
@@ -17,6 +16,5 @@ public class Nearby extends FragmentActivity {
     setContentView(R.layout.activity_nearby);
     ButterKnife.inject(this);
     title.setText(getString(R.string.app_name));
-    Timber.tag("Nearby");
   }
 }
