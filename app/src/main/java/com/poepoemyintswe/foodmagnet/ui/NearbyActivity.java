@@ -11,7 +11,10 @@ import butterknife.InjectView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.adapter.LocationAdapter;
@@ -35,6 +38,8 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.list) RecyclerView mRecyclerView;
   private GoogleMap mMap;
   private LocationAdapter adapter;
+  private Circle mCircle;
+  private Marker mMarker;
 
   private double mLatitude, mLongitude;
 
@@ -101,7 +106,8 @@ public class NearbyActivity extends ActionBarActivity
       mMap.setOnMyLocationChangeListener(this);
       // Check if we were successful in obtaining the map.
       if (mMap != null) {
-        setUpMap();
+        //setUpMap();
+        drawMarkerWithCircle(new LatLng(mLatitude, mLongitude));
       }
     }
   }
@@ -120,6 +126,34 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   @Override public void onMyLocationChange(Location location) {
+    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+    if (mCircle == null || mMarker == null) {
+      drawMarkerWithCircle(latLng);
+    } else {
+      updateMarkerWithCircle(latLng);
+    }
+  }
 
+  private void updateMarkerWithCircle(LatLng position) {
+    mCircle.setCenter(position);
+    mMarker.setPosition(position);
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.0f));
+  }
+
+  private void drawMarkerWithCircle(LatLng position) {
+    double radiusInMeters = 100.0;
+    int strokeColor = 0xffff0000; //red outline
+    int shadeColor = 0x44ff0000; //opaque red fill
+
+    CircleOptions circleOptions = new CircleOptions().center(position)
+        .radius(radiusInMeters)
+        .fillColor(shadeColor)
+        .strokeColor(strokeColor)
+        .strokeWidth(4);
+    mCircle = mMap.addCircle(circleOptions);
+
+    MarkerOptions markerOptions = new MarkerOptions().position(position);
+    mMarker = mMap.addMarker(markerOptions);
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.0f));
   }
 }
