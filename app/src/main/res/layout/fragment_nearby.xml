@@ -2,6 +2,7 @@
 <com.sothree.slidinguppanel.SlidingUpPanelLayout
     xmlns:sothree="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/sliding_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,10 +18,52 @@
       android:name="com.google.android.gms.maps.SupportMapFragment"
       />
 
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/list"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent"
+      android:orientation="vertical"
       android:gravity="center|top"
-      />
+      >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+      <ImageView
+          android:src="@mipmap/ic_location"
+          android:contentDescription="@string/app_name"
+          android:layout_margin="@dimen/spacing_minor"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          />
+
+      <LinearLayout
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          >
+        <TextView
+            android:text="@string/current_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="KFC"
+            style="@style/nameTextStyle"
+            android:fontFamily="sans-serif-condensed"
+            />
+        <TextView
+            android:id="@+id/lat_long"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/addressTextStyle"
+            android:fontFamily="sans-serif-medium"
+            />
+      </LinearLayout>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        />
+  </LinearLayout>
+
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

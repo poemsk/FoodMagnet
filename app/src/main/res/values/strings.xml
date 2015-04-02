@@ -1,7 +1,8 @@
 <resources>
-  <string name="app_name">"Food Magnet "</string>
+  <string name="app_name">"Food Magnet"</string>
   <string name="please_check_your_connection">Please check your connection&#8230;</string>
   <string name="error_unknown">Unknown error occurs&#8230;</string>
   <string name="error_no_response">Server is not responding&#8230;</string>
+  <string name="current_location">You are now at</string>
 
 </resources>

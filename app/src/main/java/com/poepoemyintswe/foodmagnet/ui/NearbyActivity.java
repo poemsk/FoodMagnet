@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,6 +39,7 @@ public class NearbyActivity extends ActionBarActivity
 
   @InjectView(R.id.toolbar) Toolbar mToolbar;
   @InjectView(R.id.list) RecyclerView mRecyclerView;
+  @InjectView(R.id.lat_long) TextView mLatLongTextView;
   private GoogleMap mMap;
   private LocationAdapter adapter;
   private Circle mCircle;
@@ -75,6 +77,7 @@ public class NearbyActivity extends ActionBarActivity
       mLatitude = GPSTracker.getInstance(this).getLatitude();
       mLongitude = GPSTracker.getInstance(this).getLongitude();
       String location = mLatitude + "," + mLongitude;
+      mLatLongTextView.setText("(" + location + ")");
       Timber.d(location);
       if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
         MapService mapService =
