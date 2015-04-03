@@ -36,6 +36,16 @@
         style="@style/addressTextStyle"
         android:fontFamily="sans-serif-light"
         />
+    <TextView
+        android:text="@string/opening"
+        android:id="@+id/opening"
+        tools:text="Opening  Yes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/addressTextStyle"
+        android:paddingBottom="@dimen/spacing_minor"
+        android:fontFamily="sans-serif-light"
+        />
 
   </LinearLayout>
 

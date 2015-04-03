@@ -61,6 +61,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @InjectView(R.id.icon) ImageView icon;
     @InjectView(R.id.name) TextView name;
     @InjectView(R.id.vicinity) TextView vicinity;
+    @InjectView(R.id.opening) TextView opening;
 
     public ViewHolder(View view) {
       super(view);
@@ -71,6 +72,19 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public void bindResult(Result result) {
       name.setText(result.name);
       vicinity.setText(result.vicinity);
+      try {
+        if (result.opening_hours.open_now) {
+          opening.setText(
+              (String.format(itemView.getResources().getString(R.string.opening), "Yes")));
+        } else {
+          opening.setText(
+              (String.format(itemView.getResources().getString(R.string.opening), "No")));
+        }
+      } catch (NullPointerException e) {
+        opening.setText((String.format(itemView.getResources().getString(R.string.opening),
+            "Data is not provided")));
+      }
+
       Glide.with(itemView.getContext()).load(result.icon).into(icon);
     }
 
