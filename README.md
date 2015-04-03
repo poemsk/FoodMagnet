@@ -1,10 +1,23 @@
 # FoodMagnet
-- Show nearby bakery, bar,cafe, food and restaurant listed in Google Map
+- Show nearby bakery, bar,cafe, food and restaurant listed in Google Places API
+- Replace API key with your own key
 
-![Main Screen](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/map.png)
+# Libraries
+- Butterknife for ViewInjection
+- Timber for logging
+- Play services for google map
+- SlidingUpPanel for Sliding up layout effect
+- Retrofit for REST client
+- OKHttp for Http client
+- Glide for image loading
+- materialish-progress for progressbar
+- Google AppCompat Libraries
 
 
-![Nearby Shop List](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/shops.png)
+![Main Screen](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/main.png)
+
+
+![Nearby Shop List](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/shoplist.png)
 
 
 ![Change Range](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/range.png)
