@@ -8,4 +8,8 @@
   <string name="searching">Searching&#8230;&#8230;</string>
   <string name="action_range">Change range</string>
   <string name="change_range">Change range to search</string>
+  <string name="title_activity_place_detail">PlaceDetailActivity</string>
+
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
 </resources>

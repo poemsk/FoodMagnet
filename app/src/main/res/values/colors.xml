@@ -4,6 +4,7 @@
   <color name="primary_dark">#1976D2</color>
   <color name="primary_light">#90CAF9</color>
   <color name="white">#FFFFFF</color>
+  <color name="grey">#ffe8e8e8</color>
   <color name="primary_text">#f62b2b2b</color>
   <color name="secondary_text">#727272</color>
   <color name="divider">#B6B6B6</color>

@@ -36,6 +36,7 @@
         style="@style/addressTextStyle"
         android:fontFamily="sans-serif-light"
         />
+
   </LinearLayout>
 
 
