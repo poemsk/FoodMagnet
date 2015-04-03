@@ -1,5 +1,6 @@
 package com.poepoemyintswe.foodmagnet.adapter;
 
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import butterknife.InjectView;
 import com.bumptech.glide.Glide;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.model.Result;
+import com.poepoemyintswe.foodmagnet.ui.PlaceDetailActivity;
 import java.util.List;
 
 /**
@@ -32,10 +34,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
   }
 
   @Override public void onBindViewHolder(final ViewHolder holder, final int position) {
-    Result result = results.get(position);
-    holder.name.setText(result.name);
-    holder.vicinity.setText(result.vicinity);
-    Glide.with(holder.itemView.getContext()).load(result.icon).into(holder.icon);
+    holder.bindResult(results.get(position));
   }
 
   public void addAll(List<Result> data) {
@@ -58,7 +57,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     return results.size();
   }
 
-  public static class ViewHolder extends RecyclerView.ViewHolder {
+  public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     @InjectView(R.id.icon) ImageView icon;
     @InjectView(R.id.name) TextView name;
     @InjectView(R.id.vicinity) TextView vicinity;
@@ -66,6 +65,18 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public ViewHolder(View view) {
       super(view);
       ButterKnife.inject(this, view);
+      itemView.setOnClickListener(this);
+    }
+
+    public void bindResult(Result result) {
+      name.setText(result.name);
+      vicinity.setText(result.vicinity);
+      Glide.with(itemView.getContext()).load(result.icon).into(icon);
+    }
+
+    @Override public void onClick(View v) {
+      Intent intent = new Intent(itemView.getContext(), PlaceDetailActivity.class);
+      itemView.getContext().startActivity(intent);
     }
   }
 }
