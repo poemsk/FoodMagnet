@@ -14,7 +14,7 @@
 - Google AppCompat Libraries
 
 
-![Main Screen](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/main.png)
+![Main Screen](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/main_screen.png)
 
 
 ![Nearby Shop List](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/shoplist.png)
@@ -23,4 +23,4 @@
 ![Change Range](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/range.png)
 
 
-![Shop Detail](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/detail.png)
+![Shop Detail](https://raw.githubusercontent.com/PoePoeMyintSwe/FoodMagnet/master/shop_detail.png)
