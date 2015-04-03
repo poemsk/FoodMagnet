@@ -3,7 +3,6 @@ package com.poepoemyintswe.foodmagnet.ui;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.CardView;
@@ -20,6 +19,7 @@ import butterknife.InjectView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -47,8 +47,7 @@ import timber.log.Timber;
 import tr.xip.errorview.ErrorView;
 import tr.xip.errorview.RetryListener;
 
-public class NearbyActivity extends ActionBarActivity
-    implements GoogleMap.OnMyLocationChangeListener {
+public class NearbyActivity extends ActionBarActivity {
 
   @InjectView(R.id.toolbar) Toolbar mToolbar;
   @InjectView(R.id.list) RecyclerView mRecyclerView;
@@ -158,8 +157,6 @@ public class NearbyActivity extends ActionBarActivity
       // Try to obtain the map from the SupportMapFragment.
       mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
       if (mMap != null) {
-        mMap.setOnMyLocationChangeListener(this);
-        //setUpMap();
         drawMarkerWithCircle(new LatLng(mLatitude, mLongitude));
       }
     }
@@ -181,23 +178,14 @@ public class NearbyActivity extends ActionBarActivity
     });
   }
 
-  @Override public void onMyLocationChange(Location location) {
-    Timber.d("Location Change Listener");
-    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-    if (mCircle == null || mMarker == null) {
-      drawMarkerWithCircle(latLng);
-    } else {
-      updateMarkerWithCircle(latLng);
-    }
-  }
-
-  private void updateMarkerWithCircle(LatLng position) {
-    mCircle.setCenter(position);
-    mMarker.setPosition(position);
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
-  }
-
   private void drawMarkerWithCircle(LatLng position) {
+    MarkerOptions markerOptions = new MarkerOptions().position(position)
+        .draggable(true)
+        .title("YOU")
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+    mMarker = mMap.addMarker(markerOptions);
+    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
+    
     int strokeColor = getResources().getColor(R.color.primary); //red outline
     int shadeColor = getResources().getColor(R.color.light_blue); //opaque red fill
 
@@ -207,11 +195,6 @@ public class NearbyActivity extends ActionBarActivity
         .strokeColor(strokeColor)
         .strokeWidth(2);
     mCircle = mMap.addCircle(circleOptions);
-
-    MarkerOptions markerOptions =
-        new MarkerOptions().position(position).draggable(true).title("Current Location");
-    mMarker = mMap.addMarker(markerOptions);
-    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
   }
 
   private void showHideProgressBar(boolean show) {
