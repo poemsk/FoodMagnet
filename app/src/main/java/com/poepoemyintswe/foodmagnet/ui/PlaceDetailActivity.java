@@ -7,14 +7,13 @@ import android.support.v7.widget.Toolbar;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.poepoemyintswe.foodmagnet.R;
-import java.util.ArrayList;
+import com.poepoemyintswe.foodmagnet.model.Result;
 import timber.log.Timber;
 
 public class PlaceDetailActivity extends ActionBarActivity {
   @InjectView(R.id.toolbar) Toolbar mToolbar;
 
-  private String name, id;
-  private ArrayList<String> tags;
+  private Result result;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -24,7 +23,7 @@ public class PlaceDetailActivity extends ActionBarActivity {
     ButterKnife.inject(this);
     //toolbar
     setSupportActionBar(mToolbar);
-    getSupportActionBar().setTitle(name);
+    getSupportActionBar().setTitle(result.name);
     getResult();
 
     Timber.tag(PlaceDetailActivity.class.getSimpleName());
@@ -32,9 +31,7 @@ public class PlaceDetailActivity extends ActionBarActivity {
 
   private void getResult() {
     Intent intent = getIntent();
-    name = intent.getStringExtra("name");
-    id = intent.getStringExtra("id");
-    tags = intent.getStringArrayListExtra("types");
+    result = (Result) intent.getSerializableExtra("result");
   }
   //@Override public boolean onCreateOptionsMenu(Menu menu) {
   //  // Inflate the menu; this adds items to the action bar if it is present.

@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.model.Result;
 import com.poepoemyintswe.foodmagnet.ui.PlaceDetailActivity;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -94,9 +93,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override public void onClick(View v) {
       Intent intent = new Intent(itemView.getContext(), PlaceDetailActivity.class);
-      intent.putExtra("id", result.place_id);
-      intent.putExtra("name", result.name);
-      intent.putStringArrayListExtra("types", (ArrayList<String>) result.types);
+      intent.putExtra("result", result);
       itemView.getContext().startActivity(intent);
     }
   }

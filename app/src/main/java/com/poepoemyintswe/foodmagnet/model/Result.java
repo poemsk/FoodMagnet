@@ -1,11 +1,12 @@
 package com.poepoemyintswe.foodmagnet.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by poepoe on 2/4/15.
  */
-public class Result {
+public class Result implements Serializable {
   public Geometry geometry;
   public String icon;
   public String id;
