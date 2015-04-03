@@ -24,7 +24,7 @@
 
   <style name="addressTextStyle"
       parent="Base.TextAppearance.AppCompat.Widget.ActionBar.Title">
-    <item name="android:textSize">@dimen/text_size_small</item>
+    <item name="android:textSize">@dimen/text_size_small_extra</item>
     <item name="android:textColor">@color/secondary_text</item>
     <item name="android:gravity">center_vertical</item>
     <item name="android:paddingLeft">@dimen/spacing_minor</item>
@@ -53,9 +53,10 @@
 
   <style name="tagStyle">
     <item name="android:gravity">center</item>
-    <item name="android:textSize">@dimen/text_size_medium</item>
+    <item name="android:textSize">@dimen/text_size_small</item>
     <item name="android:textColor">@color/secondary_text</item>
     <item name="android:layout_centerHorizontal">true</item>
+    <item name="android:fontFamily">sans-serif-light</item>
 
   </style>
 
