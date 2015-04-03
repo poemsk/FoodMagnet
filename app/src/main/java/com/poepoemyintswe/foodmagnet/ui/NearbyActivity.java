@@ -185,7 +185,7 @@ public class NearbyActivity extends ActionBarActivity {
         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
     mMarker = mMap.addMarker(markerOptions);
     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
-    
+
     int strokeColor = getResources().getColor(R.color.primary); //red outline
     int shadeColor = getResources().getColor(R.color.light_blue); //opaque red fill
 
