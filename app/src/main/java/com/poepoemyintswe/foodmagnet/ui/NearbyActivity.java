@@ -36,6 +36,7 @@ import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
 import com.poepoemyintswe.foodmagnet.utils.GPSTracker;
 import com.poepoemyintswe.foodmagnet.utils.NetworkConnectivityCheck;
 import com.poepoemyintswe.foodmagnet.utils.SharePref;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Callback;
@@ -51,11 +52,13 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.lat_long) TextView mLatLongTextView;
   @InjectView(R.id.progress_bar) ProgressWheel mProgressWheel;
   @InjectView(R.id.nearby) TextView nearbyRange;
+  @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mLayout;
   private GoogleMap mMap;
   private LocationAdapter adapter;
   private Circle mCircle;
   private Marker mMarker;
   private String location;
+  private LinearLayoutManager layoutManager;
 
   private double mLatitude, mLongitude;
 
@@ -69,10 +72,12 @@ public class NearbyActivity extends ActionBarActivity
 
     //initialize RecyclerView
     initRecyclerView();
+
     List<Result> results = new ArrayList<>();
     adapter = new LocationAdapter(results);
     mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
     mRecyclerView.setAdapter(adapter);
+
     nearbyRange.setText(String.format(getResources().getString(R.string.nearby),
         SharePref.getInstance(NearbyActivity.this).getRange()));
 
@@ -141,11 +146,19 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   public void initRecyclerView() {
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     layoutManager.scrollToPosition(0);
     layoutManager.setSmoothScrollbarEnabled(true);
     mRecyclerView.setLayoutManager(layoutManager);
+    mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+      @Override public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        super.onScrolled(recyclerView, dx, dy);
+        int topRowVerticalPosition = (recyclerView == null || recyclerView.getChildCount() == 0) ? 0
+            : recyclerView.getChildAt(0).getTop();
+        if (mLayout.isTouchEnabled()) mLayout.setEnabled(topRowVerticalPosition >= 0);
+      }
+    });
   }
 
   @Override public void onMyLocationChange(Location location) {
