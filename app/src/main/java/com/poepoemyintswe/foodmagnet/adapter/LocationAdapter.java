@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.model.Result;
 import com.poepoemyintswe.foodmagnet.ui.PlaceDetailActivity;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +64,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     @InjectView(R.id.vicinity) TextView vicinity;
     @InjectView(R.id.opening) TextView opening;
 
+    private Result result;
+
     public ViewHolder(View view) {
       super(view);
       ButterKnife.inject(this, view);
@@ -70,6 +73,7 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     }
 
     public void bindResult(Result result) {
+      this.result = result;
       name.setText(result.name);
       vicinity.setText(result.vicinity);
       try {
@@ -90,6 +94,9 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     @Override public void onClick(View v) {
       Intent intent = new Intent(itemView.getContext(), PlaceDetailActivity.class);
+      intent.putExtra("id", result.place_id);
+      intent.putExtra("name", result.name);
+      intent.putStringArrayListExtra("types", (ArrayList<String>) result.types);
       itemView.getContext().startActivity(intent);
     }
   }
