@@ -86,7 +86,22 @@
         android:layout_margin="@dimen/spacing_minor"
         android:visibility="gone"
         />
-
+    <tr.xip.errorview.ErrorView xmlns:errorview="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/error_view"
+        android:paddingTop="@dimen/spacing_major"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        errorview:ev_errorImage="@drawable/error_view_cloud"
+        errorview:ev_errorSubtitle="@string/error_something_wrong"
+        errorview:ev_errorTitle="@string/error_cant_connect"
+        errorview:ev_retryButtonBackground="?android:attr/selectableItemBackground"
+        errorview:ev_retryButtonTextColor="@android:color/darker_gray"
+        errorview:ev_showRetryButton="true"
+        errorview:ev_showSubtitle="true"
+        errorview:ev_showTitle="true"
+        android:visibility="gone"
+        android:layout_gravity="center"
+        />
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

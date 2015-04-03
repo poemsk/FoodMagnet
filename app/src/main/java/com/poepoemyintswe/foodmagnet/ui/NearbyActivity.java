@@ -43,6 +43,8 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import timber.log.Timber;
+import tr.xip.errorview.ErrorView;
+import tr.xip.errorview.RetryListener;
 
 public class NearbyActivity extends ActionBarActivity
     implements GoogleMap.OnMyLocationChangeListener {
@@ -53,12 +55,13 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.progress_bar) ProgressWheel mProgressWheel;
   @InjectView(R.id.nearby) TextView nearbyRange;
   @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mLayout;
+  @InjectView(R.id.error_view) ErrorView errorView;
+
   private GoogleMap mMap;
   private LocationAdapter adapter;
   private Circle mCircle;
   private Marker mMarker;
   private String location;
-  private LinearLayoutManager layoutManager;
 
   private double mLatitude, mLongitude;
 
@@ -97,32 +100,46 @@ public class NearbyActivity extends ActionBarActivity
 
     //initialize map
     setUpMapIfNeeded();
+
+    errorView.setOnRetryListener(new RetryListener() {
+      @Override public void onRetry() {
+        getNearbyShops(SharePref.getInstance(NearbyActivity.this).getRange());
+      }
+    });
   }
 
   private void getNearbyShops(double range) {
     if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
       showHideProgressBar(true);
+      showHideErrorView(false);
       MapService mapService =
           CustomRestAdapter.getInstance(this).normalRestAdapter().create(MapService.class);
       mapService.getNearbyShops(location, range, "bakery|bar|cafe|food|restaurant",
           getString(R.string.google_maps_key), new Callback<Data>() {
             @Override public void success(Data data, Response response) {
               showHideProgressBar(false);
-              adapter.addAll(data.results);
-              for (int i = 0; i < data.results.size(); i++) {
-                Result result = data.results.get(i);
-                Geometry geometry = data.results.get(i).geometry;
-                mMap.addMarker(new MarkerOptions().position(
-                    new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
+              if (data.results.size() > 0) {
+                adapter.addAll(data.results);
+                for (int i = 0; i < data.results.size(); i++) {
+                  Result result = data.results.get(i);
+                  Geometry geometry = data.results.get(i).geometry;
+                  mMap.addMarker(new MarkerOptions().position(
+                      new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
+                }
+              } else {
+                showHideErrorView(true);
               }
 
               Timber.d("Response status :" + response.getStatus());
             }
 
             @Override public void failure(RetrofitError error) {
+              showHideErrorView(true);
               showHideProgressBar(false);
             }
           });
+    } else {
+      showHideErrorView(true);
     }
   }
 
@@ -146,7 +163,7 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   public void initRecyclerView() {
-    layoutManager = new LinearLayoutManager(this);
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
     layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
     layoutManager.scrollToPosition(0);
     layoutManager.setSmoothScrollbarEnabled(true);
@@ -196,6 +213,10 @@ public class NearbyActivity extends ActionBarActivity
 
   private void showHideProgressBar(boolean show) {
     mProgressWheel.setVisibility(show ? View.VISIBLE : View.GONE);
+  }
+
+  private void showHideErrorView(boolean show) {
+    errorView.setVisibility(show ? View.VISIBLE : View.GONE);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

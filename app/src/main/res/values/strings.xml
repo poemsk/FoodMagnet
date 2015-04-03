@@ -10,6 +10,9 @@
   <string name="change_range">Change range to search</string>
   <string name="title_activity_place_detail">PlaceDetailActivity</string>
   <string name="opening">Open Now:\t %1$s</string>
-  <string name="hello_world">Hello world!</string>
+
+  <string name="error_cant_connect">Can\'t Connect!</string>
+  <string name="error_something_wrong">Something went wrong!</string>
+
   <string name="action_settings">Settings</string>
 </resources>
