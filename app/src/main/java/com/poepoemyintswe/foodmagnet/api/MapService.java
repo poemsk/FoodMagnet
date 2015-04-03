@@ -15,6 +15,6 @@ import static com.poepoemyintswe.foodmagnet.Config.TYPES;
  * Created by poepoe on 2/4/15.
  */
 public interface MapService {
-  @GET(END_POINT) void getNearbyShops(@Query(LOCATION) String location, @Query(RADIUS) int radius,
+  @GET(END_POINT) void getNearbyShops(@Query(LOCATION) String location, @Query(RADIUS) double radius,
       @Query(TYPES) String types, @Query(KEY) String key, Callback<Data> callback);
 }

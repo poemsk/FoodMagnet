@@ -43,6 +43,7 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.list) RecyclerView mRecyclerView;
   @InjectView(R.id.lat_long) TextView mLatLongTextView;
   @InjectView(R.id.progress_bar) ProgressWheel mProgressWheel;
+  @InjectView(R.id.nearby) TextView nearbyRange;
   private GoogleMap mMap;
   private LocationAdapter adapter;
   private Circle mCircle;
@@ -50,6 +51,8 @@ public class NearbyActivity extends ActionBarActivity
   private String location;
 
   private double mLatitude, mLongitude;
+
+  private double range = 100.0;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -65,6 +68,7 @@ public class NearbyActivity extends ActionBarActivity
     adapter = new LocationAdapter(results);
     mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
     mRecyclerView.setAdapter(adapter);
+    nearbyRange.setText(String.format(getResources().getString(R.string.nearby), ((int) range)));
 
     if (GPSTracker.getInstance(this).canGetLocation()) {
       mLatitude = GPSTracker.getInstance(this).getLatitude();
@@ -89,7 +93,7 @@ public class NearbyActivity extends ActionBarActivity
       showHideProgressBar(true);
       MapService mapService =
           CustomRestAdapter.getInstance(this).normalRestAdapter().create(MapService.class);
-      mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
+      mapService.getNearbyShops(location, range, "bakery|bar|cafe|food|restaurant",
           getString(R.string.google_maps_key), new Callback<Data>() {
             @Override public void success(Data data, Response response) {
               showHideProgressBar(false);
@@ -155,12 +159,11 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   private void drawMarkerWithCircle(LatLng position) {
-    double radiusInMeters = 100.0;
     int strokeColor = getResources().getColor(R.color.primary); //red outline
     int shadeColor = getResources().getColor(R.color.light_blue); //opaque red fill
 
     CircleOptions circleOptions = new CircleOptions().center(position)
-        .radius(radiusInMeters)
+        .radius(range)
         .fillColor(shadeColor)
         .strokeColor(strokeColor)
         .strokeWidth(2);
