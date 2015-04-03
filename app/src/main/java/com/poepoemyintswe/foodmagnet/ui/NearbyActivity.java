@@ -119,7 +119,7 @@ public class NearbyActivity extends ActionBarActivity {
           getString(R.string.google_maps_key), new Callback<Data>() {
             @Override public void success(Data data, Response response) {
               showHideProgressBar(false);
-              if (data.results.size() > 0) {
+              if (data.results.size() > 0 && data.status.equalsIgnoreCase("ok")) {
                 adapter.addAll(data.results);
                 for (int i = 0; i < data.results.size(); i++) {
                   Result result = data.results.get(i);
@@ -127,6 +127,10 @@ public class NearbyActivity extends ActionBarActivity {
                   mMap.addMarker(new MarkerOptions().position(
                       new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
                 }
+              } else if (!data.status.equalsIgnoreCase("ok")) {
+                adapter.clearAll();
+                showHideErrorView(true);
+                noShopErrorView();
               } else {
                 adapter.clearAll();
                 showHideErrorView(true);
@@ -202,6 +206,7 @@ public class NearbyActivity extends ActionBarActivity {
   }
 
   private void showHideErrorView(boolean show) {
+    defaultrrorView();
     mErrorView.setVisibility(show ? View.VISIBLE : View.GONE);
     mCardView.setVisibility(show ? View.GONE : View.VISIBLE);
   }
@@ -253,4 +258,15 @@ public class NearbyActivity extends ActionBarActivity {
     Dialog dialog = builder.create();
     dialog.show();
   }
+
+  private void noShopErrorView() {
+    mErrorView.setErrorTitle(R.string.error_no_nearyby);
+    mErrorView.setErrorSubtitle(R.string.error_range);
+  }
+
+  private void defaultrrorView() {
+    mErrorView.setErrorTitle(R.string.error_cant_connect);
+    mErrorView.setErrorSubtitle(R.string.error_something_wrong);
+  }
 }
+

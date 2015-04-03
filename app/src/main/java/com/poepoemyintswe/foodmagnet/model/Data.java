@@ -7,4 +7,5 @@ import java.util.List;
  */
 public class Data {
   public List<Result> results;
+  public String status;
 }
