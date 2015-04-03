@@ -31,15 +31,6 @@ public class SharePref {
   }
 
   /**
-   * Set range passed via argument
-   *
-   * @param range location argument
-   */
-  public void setRange(int range) {
-    mEditor.putInt(PREF_RANGE, range).apply();
-  }
-
-  /**
    * Return a default range if the getInt returns null
    *
    * @return the saved range. If the getInt returns null, return default range.
@@ -47,5 +38,14 @@ public class SharePref {
 
   public int getRange() {
     return mSharedPreferences.getInt(PREF_RANGE, DEFAULT_RANGE);
+  }
+
+  /**
+   * Set range passed via argument
+   *
+   * @param range location argument
+   */
+  public void setRange(int range) {
+    mEditor.putInt(PREF_RANGE, range).apply();
   }
 }
