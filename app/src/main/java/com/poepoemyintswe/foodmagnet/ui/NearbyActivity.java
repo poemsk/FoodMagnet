@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.pnikosis.materialishprogress.ProgressWheel;
 import com.poepoemyintswe.foodmagnet.R;
 import com.poepoemyintswe.foodmagnet.adapter.LocationAdapter;
 import com.poepoemyintswe.foodmagnet.api.MapService;
@@ -40,6 +42,7 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.toolbar) Toolbar mToolbar;
   @InjectView(R.id.list) RecyclerView mRecyclerView;
   @InjectView(R.id.lat_long) TextView mLatLongTextView;
+  @InjectView(R.id.progress_bar) ProgressWheel mProgressWheel;
   private GoogleMap mMap;
   private LocationAdapter adapter;
   private Circle mCircle;
@@ -83,11 +86,13 @@ public class NearbyActivity extends ActionBarActivity
 
   private void getNearbyShops() {
     if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
+      showHideProgressBar(true);
       MapService mapService =
           CustomRestAdapter.getInstance(this).normalRestAdapter().create(MapService.class);
       mapService.getNearbyShops(location, 100, "bakery|bar|cafe|food|restaurant",
           getString(R.string.google_maps_key), new Callback<Data>() {
             @Override public void success(Data data, Response response) {
+              showHideProgressBar(false);
               adapter.addAll(data.results);
               for (int i = 0; i < data.results.size(); i++) {
                 Result result = data.results.get(i);
@@ -100,7 +105,7 @@ public class NearbyActivity extends ActionBarActivity
             }
 
             @Override public void failure(RetrofitError error) {
-
+              showHideProgressBar(false);
             }
           });
     }
@@ -165,5 +170,9 @@ public class NearbyActivity extends ActionBarActivity
         new MarkerOptions().position(position).draggable(true).title("Current Location");
     mMarker = mMap.addMarker(markerOptions);
     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitude, mLongitude), 17.5f));
+  }
+
+  private void showHideProgressBar(boolean show) {
+    mProgressWheel.setVisibility(show ? View.VISIBLE : View.GONE);
   }
 }

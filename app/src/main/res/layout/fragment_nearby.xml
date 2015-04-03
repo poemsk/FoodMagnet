@@ -11,7 +11,7 @@
     sothree:umanoShadowHeight="@dimen/spacing_micro"
     >
 
-  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+  <fragment
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:id="@+id/map"
@@ -24,47 +24,78 @@
       android:orientation="vertical"
       android:gravity="center|top"
       >
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         >
-      <ImageView
-          android:src="@mipmap/ic_location"
-          android:contentDescription="@string/app_name"
-          android:layout_margin="@dimen/spacing_minor"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:layout_gravity="center_vertical"
-          />
-
       <LinearLayout
-          android:layout_width="wrap_content"
+          android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="vertical"
+          android:orientation="horizontal"
           >
-        <TextView
-            android:text="@string/current_location"
-            android:layout_width="match_parent"
+        <ImageView
+            android:src="@mipmap/ic_location"
+            android:contentDescription="@string/app_name"
+            android:layout_margin="@dimen/spacing_minor"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="KFC"
-            style="@style/nameTextStyle"
-            android:fontFamily="sans-serif-condensed"
+            android:layout_gravity="center_vertical"
             />
-        <TextView
-            android:id="@+id/lat_long"
-            android:layout_width="match_parent"
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/addressTextStyle"
-            android:fontFamily="sans-serif-medium"
-            />
+            android:orientation="vertical"
+            >
+          <TextView
+              android:text="@string/current_location"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              tools:text="KFC"
+              style="@style/titleTextStyle"
+              android:fontFamily="sans-serif-medium"
+              />
+          <TextView
+              android:id="@+id/lat_long"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              style="@style/addressTextStyle"
+              android:fontFamily="sans-serif-medium"
+              />
+        </LinearLayout>
       </LinearLayout>
-    </LinearLayout>
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+    </android.support.v7.widget.CardView>
+    <TextView
+        android:text="@string/nearby"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/subTitleTextStyle"
+        android:fontFamily="sans-serif-condensed"
+        />
+    <com.pnikosis.materialishprogress.ProgressWheel
+        xmlns:wheel="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        wheel:barColor="#5588FF"
+        wheel:circleRadius="50dp"
+        wheel:progressIndeterminate="true"
+        android:id="@+id/progress_bar"
+        android:layout_margin="@dimen/spacing_minor"
+        android:visibility="gone"
+        />
+
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
-        />
+        android:layout_margin="@dimen/spacing_minor"
+        >
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/list"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          />
+    </android.support.v7.widget.CardView>
   </LinearLayout>
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>
