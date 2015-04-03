@@ -45,6 +45,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     notifyDataSetChanged();
   }
 
+  public void clearAll() {
+    results.clear();
+    notifyDataSetChanged();
+  }
+
   @Override public long getItemId(int position) {
     return position;
   }

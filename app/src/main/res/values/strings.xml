@@ -6,4 +6,6 @@
   <string name="current_location">You are now at</string>
   <string name="nearby">Nearby Food and Shops within %1$d meters</string>
   <string name="searching">Searching&#8230;&#8230;</string>
+  <string name="action_range">Change range</string>
+  <string name="change_range">Change range to search</string>
 </resources>

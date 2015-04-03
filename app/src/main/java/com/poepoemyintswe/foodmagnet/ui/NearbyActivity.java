@@ -1,12 +1,18 @@
 package com.poepoemyintswe.foodmagnet.ui;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,6 +35,7 @@ import com.poepoemyintswe.foodmagnet.ui.widget.DividerItemDecoration;
 import com.poepoemyintswe.foodmagnet.utils.CustomRestAdapter;
 import com.poepoemyintswe.foodmagnet.utils.GPSTracker;
 import com.poepoemyintswe.foodmagnet.utils.NetworkConnectivityCheck;
+import com.poepoemyintswe.foodmagnet.utils.SharePref;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit.Callback;
@@ -52,8 +59,6 @@ public class NearbyActivity extends ActionBarActivity
 
   private double mLatitude, mLongitude;
 
-  private double range = 100.0;
-
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_nearby);
@@ -68,7 +73,8 @@ public class NearbyActivity extends ActionBarActivity
     adapter = new LocationAdapter(results);
     mRecyclerView.addItemDecoration(new DividerItemDecoration(this, null));
     mRecyclerView.setAdapter(adapter);
-    nearbyRange.setText(String.format(getResources().getString(R.string.nearby), ((int) range)));
+    nearbyRange.setText(String.format(getResources().getString(R.string.nearby),
+        SharePref.getInstance(NearbyActivity.this).getRange()));
 
     if (GPSTracker.getInstance(this).canGetLocation()) {
       mLatitude = GPSTracker.getInstance(this).getLatitude();
@@ -82,13 +88,13 @@ public class NearbyActivity extends ActionBarActivity
     Timber.tag("NearbyActivity");
 
     //fetch data
-    getNearbyShops();
+    getNearbyShops(SharePref.getInstance(NearbyActivity.this).getRange());
 
     //initialize map
     setUpMapIfNeeded();
   }
 
-  private void getNearbyShops() {
+  private void getNearbyShops(double range) {
     if (NetworkConnectivityCheck.getInstance(this).isConnected()) {
       showHideProgressBar(true);
       MapService mapService =
@@ -163,7 +169,7 @@ public class NearbyActivity extends ActionBarActivity
     int shadeColor = getResources().getColor(R.color.light_blue); //opaque red fill
 
     CircleOptions circleOptions = new CircleOptions().center(position)
-        .radius(range)
+        .radius(SharePref.getInstance(NearbyActivity.this).getRange())
         .fillColor(shadeColor)
         .strokeColor(strokeColor)
         .strokeWidth(2);
@@ -177,5 +183,53 @@ public class NearbyActivity extends ActionBarActivity
 
   private void showHideProgressBar(boolean show) {
     mProgressWheel.setVisibility(show ? View.VISIBLE : View.GONE);
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_nearby, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    int id = item.getItemId();
+
+    //noinspection SimplifiableIfStatement
+    if (id == R.id.action_range) {
+      openRangeChangeDialog();
+      return true;
+    }
+
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void openRangeChangeDialog() {
+    View dialogView = View.inflate(this, R.layout.dialog_range_changed, null);
+    final EditText editText = (EditText) dialogView.findViewById(R.id.range_fill_text);
+    editText.setText(Integer.toString(SharePref.getInstance(this).getRange()));
+    AlertDialog.Builder builder = new AlertDialog.Builder(this).setTitle(R.string.change_range)
+        .setView(dialogView)
+        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+          @Override public void onClick(DialogInterface dialog, int which) {
+            int range = Integer.parseInt(editText.getText().toString().trim());
+            SharePref.getInstance(NearbyActivity.this).setRange(range);
+            nearbyRange.setText(String.format(getResources().getString(R.string.nearby),
+                SharePref.getInstance(NearbyActivity.this).getRange()));
+            adapter.clearAll();
+            getNearbyShops(range);
+            mCircle.remove();
+            drawMarkerWithCircle(new LatLng(mLatitude, mLongitude));
+          }
+        })
+        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+          @Override public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+          }
+        });
+    Dialog dialog = builder.create();
+    dialog.show();
   }
 }
