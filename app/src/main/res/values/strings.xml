@@ -5,4 +5,5 @@
   <string name="error_no_response">Server is not responding&#8230;</string>
   <string name="current_location">You are now at</string>
   <string name="nearby">Nearby Food and Shops</string>
+  <string name="searching">Searching&#8230;&#8230;</string>
 </resources>

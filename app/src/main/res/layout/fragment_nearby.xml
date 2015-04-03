@@ -51,11 +51,12 @@
               android:text="@string/current_location"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              tools:text="KFC"
+              tools:text="You are now at"
               style="@style/titleTextStyle"
               android:fontFamily="sans-serif-medium"
               />
           <TextView
+              android:text="@string/searching"
               android:id="@+id/lat_long"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
