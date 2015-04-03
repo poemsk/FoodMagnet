@@ -38,7 +38,8 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     mDivider = divider;
   }
 
-  public DividerItemDecoration(Drawable divider, boolean showFirstDivider, boolean showLastDivider) {
+  public DividerItemDecoration(Drawable divider, boolean showFirstDivider,
+      boolean showLastDivider) {
     this(divider);
     mShowFirstDivider = showFirstDivider;
     mShowLastDivider = showLastDivider;
