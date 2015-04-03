@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -55,7 +56,8 @@ public class NearbyActivity extends ActionBarActivity
   @InjectView(R.id.progress_bar) ProgressWheel mProgressWheel;
   @InjectView(R.id.nearby) TextView nearbyRange;
   @InjectView(R.id.sliding_layout) SlidingUpPanelLayout mLayout;
-  @InjectView(R.id.error_view) ErrorView errorView;
+  @InjectView(R.id.error_view) ErrorView mErrorView;
+  @InjectView(R.id.card) CardView mCardView;
 
   private GoogleMap mMap;
   private LocationAdapter adapter;
@@ -101,7 +103,7 @@ public class NearbyActivity extends ActionBarActivity
     //initialize map
     setUpMapIfNeeded();
 
-    errorView.setOnRetryListener(new RetryListener() {
+    mErrorView.setOnRetryListener(new RetryListener() {
       @Override public void onRetry() {
         getNearbyShops(SharePref.getInstance(NearbyActivity.this).getRange());
       }
@@ -127,6 +129,7 @@ public class NearbyActivity extends ActionBarActivity
                       new LatLng(geometry.location.lat, geometry.location.lng)).title(result.name));
                 }
               } else {
+                adapter.clearAll();
                 showHideErrorView(true);
               }
 
@@ -216,7 +219,8 @@ public class NearbyActivity extends ActionBarActivity
   }
 
   private void showHideErrorView(boolean show) {
-    errorView.setVisibility(show ? View.VISIBLE : View.GONE);
+    mErrorView.setVisibility(show ? View.VISIBLE : View.GONE);
+    mCardView.setVisibility(show ? View.GONE : View.VISIBLE);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
