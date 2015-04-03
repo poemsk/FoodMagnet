@@ -45,7 +45,7 @@ public class PlaceDetailActivity extends ActionBarActivity {
   private void toolbarSetup() {
     setSupportActionBar(mToolbar);
     getSupportActionBar().setTitle(result.name);
-    getSupportActionBar().setDisplayUseLogoEnabled(true);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
   }
 
   private void inflateResultView() {
